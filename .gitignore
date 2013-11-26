@@ -1,0 +1,8 @@
+/bin/
+/vendor/
+/nbproject/
+/.idea/
+/*.sublime-project
+/*.sublime-workspace
+/composer.phar
+/composer.lock

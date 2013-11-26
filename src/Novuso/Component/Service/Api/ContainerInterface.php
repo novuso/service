@@ -11,4 +11,8 @@ namespace Novuso\Component\Service\Api;
 
 interface ContainerInterface
 {
+    public function setParameter($key, $value);
+    public function getParameter($key, $default = null);
+    public function hasParameter($key);
+    public function removeParameter($key);
 }

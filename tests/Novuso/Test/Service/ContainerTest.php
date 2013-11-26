@@ -28,4 +28,15 @@ class ContainerTest extends PHPUnit_Framework_TestCase
             $this->container
         );
     }
+
+    public function testParameterModification()
+    {
+        $this->container->setParameter('foo', 'bar');
+        $this->assertTrue($this->container->hasParameter('foo'));
+        $this->assertEquals('bar', $this->container->getParameter('foo'));
+        $this->container->removeParameter('foo');
+        $this->assertFalse($this->container->hasParameter('foo'));
+        $this->assertNull($this->container->getParameter('foo'));
+        $this->assertEquals('default', $this->container->getParameter('foo', 'default'));
+    }
 }

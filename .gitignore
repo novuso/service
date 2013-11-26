@@ -1,4 +1,10 @@
 /bin/
+/build/api/
+/build/coverage/
+/build/logs/
+/build/pdepend/
+/build/phpcb/
+/build/build.properties
 /vendor/
 /nbproject/
 /.idea/

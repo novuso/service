@@ -1,4 +1,4 @@
-# Novuso Service
+# Novuso Service [![Build Status](https://travis-ci.org/novuso/service.png?branch=master)](https://travis-ci.org/novuso/service)
 
 Novuso Service is a simple service container component.
 

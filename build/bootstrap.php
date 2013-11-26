@@ -7,4 +7,4 @@
  * @license   http://opensource.org/licenses/MIT The MIT License
  */
 
-require_once __DIR__.'/vendor/autoload.php';
+require_once realpath(__DIR__.'/../vendor/autoload.php');

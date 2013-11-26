@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Novuso Service Test Suite" tests="2" assertions="6" failures="0" errors="0" time="0.013305">
+    <testsuite name="Novuso\Test\Service\ContainerTest" file="/home/john/Projects/service/tests/Novuso/Test/Service/ContainerTest.php" namespace="Novuso\Test\Service" fullPackage="Novuso.Test.Service" tests="2" assertions="6" failures="0" errors="0" time="0.013305">
+      <testcase name="testInterface" class="Novuso\Test\Service\ContainerTest" file="/home/john/Projects/service/tests/Novuso/Test/Service/ContainerTest.php" line="24" assertions="1" time="0.003114"/>
+      <testcase name="testParameterModification" class="Novuso\Test\Service\ContainerTest" file="/home/john/Projects/service/tests/Novuso/Test/Service/ContainerTest.php" line="32" assertions="5" time="0.010191"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

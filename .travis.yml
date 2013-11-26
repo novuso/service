@@ -5,6 +5,10 @@ php:
   - 5.5
 
 before_script:
-  - composer install --prefer-dist --dev
+  - wget http://getcomposer.org/composer.phar
+  - php composer.phar install --dev --prefer-dist --no-interaction
 
-script: phpunit
+script: php bin/phing integrate
+
+after_script:
+  - php bin/coveralls -v

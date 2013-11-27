@@ -16,6 +16,7 @@ interface ContainerInterface
     const UNDEFINED_NULL = 0;
     const UNDEFINED_EXCEPTION = 1;
 
+    public function factory($name, Closure $callback);
     public function set($name, Closure $callback);
     public function get($name, $undefined = self::UNDEFINED_EXCEPTION);
     public function has($name);

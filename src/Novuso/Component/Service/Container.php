@@ -18,6 +18,13 @@ class Container implements ContainerInterface
     protected $services = [];
     protected $parameters = [];
 
+    public function factory($name, Closure $callback)
+    {
+        $this->services[$name] = $callback;
+
+        return $this;
+    }
+
     public function set($name, Closure $callback)
     {
         $this->services[$name] = function ($c) use ($callback) {

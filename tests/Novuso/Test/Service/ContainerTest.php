@@ -42,7 +42,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('default', $this->container->getParameter('foo', 'default'));
     }
 
-    public function testSingletonService()
+    public function testSingletonServiceDefinition()
     {
         $this->container->setParameter('date', '2007-08-17');
         $this->container->set('date', function ($c) {
@@ -55,6 +55,21 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $date2 = $this->container->get('date');
         $this->assertEquals('August 18th, 2007', $date2->format('F jS, Y'));
         $this->assertSame($date1, $date2);
+    }
+
+    public function testFactoryServiceDefinition()
+    {
+        $this->container->setParameter('date', '2007-08-17');
+        $this->container->factory('date', function ($c) {
+            return new DateTime($c->getParameter('date'));
+        });
+        $this->assertTrue($this->container->has('date'));
+        $date1 = $this->container->get('date');
+        $this->assertEquals('August 17th, 2007', $date1->format('F jS, Y'));
+        $date1->modify('+1 day');
+        $date2 = $this->container->get('date');
+        $this->assertEquals('August 17th, 2007', $date2->format('F jS, Y'));
+        $this->assertNotSame($date1, $date2);
     }
 
     public function testUndefinedNullGetBehavior()

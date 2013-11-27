@@ -10,10 +10,44 @@
 namespace Novuso\Component\Service;
 
 use Novuso\Component\Service\Api\ContainerInterface;
+use InvalidArgumentException;
+use Closure;
 
 class Container implements ContainerInterface
 {
+    protected $services = [];
     protected $parameters = [];
+
+    public function set($name, Closure $callback)
+    {
+        $this->services[$name] = function ($c) use ($callback) {
+            static $object;
+            if (null === $object) {
+                $object = $callback($c);
+            }
+
+            return $object;
+        };
+
+        return $this;
+    }
+
+    public function get($name, $undefined = self::UNDEFINED_EXCEPTION)
+    {
+        if (!isset($this->services[$name])) {
+            if (self::UNDEFINED_NULL === $undefined) {
+                return null;
+            }
+            throw new InvalidArgumentException(sprintf('Service "%s" is not defined', $name));
+        }
+
+        return $this->services[$name]($this);
+    }
+
+    public function has($name)
+    {
+        return isset($this->services[$name]);
+    }
 
     public function setParameter($key, $value)
     {

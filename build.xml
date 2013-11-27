@@ -4,7 +4,6 @@
 
     <!-- Properties -->
 
-    <property file="build/build.dist.properties" />
     <property file="build/build.properties" />
 
     <!-- Main Targets -->
@@ -15,7 +14,7 @@
     </target>
 
     <target name="integrate" description="Default build process for continuous integration server"
-            depends="update,prepare,qa.ci,docs">
+            depends="prepare,qa.ci,docs">
         <echo msg="Build complete for version: ${version}" />
     </target>
 

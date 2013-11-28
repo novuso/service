@@ -7,10 +7,10 @@
  * @license   http://opensource.org/licenses/MIT The MIT License
  */
 
-namespace Novuso\Test\Service\Mixin;
+namespace Novuso\UnitTest\Service\Mixin;
 
 use PHPUnit_Framework_TestCase;
-use Novuso\Test\Service\Stub\Controller;
+use Novuso\UnitTest\Service\Stub\Controller;
 use Mockery;
 
 class ContainerAwareTraitTest extends PHPUnit_Framework_TestCase

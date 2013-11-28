@@ -24,7 +24,8 @@
     "autoload": {
         "psr-0": {
             "Novuso\\Component\\Service": "src",
-            "Novuso\\Test\\Service": "tests"
+            "Novuso\\UnitTest\\Service": "tests",
+            "Novuso\\Integration\\Service": "tests"
         }
     },
     "config": {

@@ -7,7 +7,7 @@
  * @license   http://opensource.org/licenses/MIT The MIT License
  */
 
-namespace Novuso\Test\Service;
+namespace Novuso\UnitTest\Service;
 
 use PHPUnit_Framework_TestCase;
 use Novuso\Component\Service\Definition;

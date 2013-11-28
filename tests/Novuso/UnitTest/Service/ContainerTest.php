@@ -7,7 +7,7 @@
  * @license   http://opensource.org/licenses/MIT The MIT License
  */
 
-namespace Novuso\Test\Service;
+namespace Novuso\UnitTest\Service;
 
 use PHPUnit_Framework_TestCase;
 use Novuso\Component\Service\Api\ContainerInterface;
@@ -55,6 +55,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $date2 = $this->container->get('date');
         $this->assertEquals('August 18th, 2007', $date2->format('F jS, Y'));
         $this->assertSame($date1, $date2);
+        $this->container->remove('date');
+        $this->assertFalse($this->container->has('date'));
     }
 
     public function testFactoryServiceDefinition()
@@ -70,6 +72,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $date2 = $this->container->get('date');
         $this->assertEquals('August 17th, 2007', $date2->format('F jS, Y'));
         $this->assertNotSame($date1, $date2);
+        $this->container->remove('date');
+        $this->assertFalse($this->container->has('date'));
     }
 
     public function testUndefinedNullGetBehavior()
@@ -78,11 +82,63 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException Novuso\Component\Service\Exception\ServiceNotFoundException
      */
-    public function testUndefinedExceptionGetBehavior()
+    public function testServiceNotFoundOnGet()
     {
-        // should throw exception
         $this->container->get('foo');
+    }
+
+    /**
+     * @expectedException Novuso\Component\Service\Exception\FrozenContainerException
+     */
+    public function testFactoryMethodFrozenContainer()
+    {
+        $this->container->freeze();
+        $this->container->factory('date', function () {
+            return new DateTime();
+        });
+    }
+
+    /**
+     * @expectedException Novuso\Component\Service\Exception\FrozenContainerException
+     */
+    public function testSetMethodFrozenContainer()
+    {
+        $this->container->freeze();
+        $this->container->set('date', function () {
+            return new DateTime();
+        });
+    }
+
+    /**
+     * @expectedException Novuso\Component\Service\Exception\FrozenContainerException
+     */
+    public function testRemoveMethodFrozenContainer()
+    {
+        $this->container->set('date', function () {
+            return new DateTime();
+        });
+        $this->container->freeze();
+        $this->container->remove('date');
+    }
+
+    /**
+     * @expectedException Novuso\Component\Service\Exception\FrozenContainerException
+     */
+    public function testSetParameterMethodFrozenContainer()
+    {
+        $this->container->freeze();
+        $this->container->setParameter('foo', 'bar');
+    }
+
+    /**
+     * @expectedException Novuso\Component\Service\Exception\FrozenContainerException
+     */
+    public function testRemoveParameterMethodFrozenContainer()
+    {
+        $this->container->setParameter('foo', 'bar');
+        $this->container->freeze();
+        $this->container->removeParameter('foo');
     }
 }

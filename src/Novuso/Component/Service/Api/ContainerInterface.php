@@ -20,8 +20,11 @@ interface ContainerInterface
     public function set($name, Closure $callback);
     public function get($name, $undefined = self::UNDEFINED_EXCEPTION);
     public function has($name);
+    public function remove($name);
     public function setParameter($key, $value);
     public function getParameter($key, $default = null);
     public function hasParameter($key);
     public function removeParameter($key);
+    public function isFrozen();
+    public function freeze();
 }

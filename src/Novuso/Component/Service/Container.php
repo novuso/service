@@ -10,16 +10,21 @@
 namespace Novuso\Component\Service;
 
 use Novuso\Component\Service\Api\ContainerInterface;
-use InvalidArgumentException;
+use Novuso\Component\Service\Exception\FrozenContainerException;
+use Novuso\Component\Service\Exception\ServiceNotFoundException;
 use Closure;
 
 class Container implements ContainerInterface
 {
     protected $services = [];
     protected $parameters = [];
+    protected $frozen = false;
 
     public function factory($name, Closure $callback)
     {
+        if ($this->isFrozen()) {
+            throw new FrozenContainerException(sprintf('%s cannot modify a frozen container', __METHOD__));
+        }
         $this->services[$name] = $callback;
 
         return $this;
@@ -27,6 +32,9 @@ class Container implements ContainerInterface
 
     public function set($name, Closure $callback)
     {
+        if ($this->isFrozen()) {
+            throw new FrozenContainerException(sprintf('%s cannot modify a frozen container', __METHOD__));
+        }
         $this->services[$name] = function ($c) use ($callback) {
             static $object;
             if (null === $object) {
@@ -45,7 +53,7 @@ class Container implements ContainerInterface
             if (self::UNDEFINED_NULL === $undefined) {
                 return null;
             }
-            throw new InvalidArgumentException(sprintf('Service "%s" is not defined', $name));
+            throw new ServiceNotFoundException(sprintf('Service "%s" is not defined', $name));
         }
 
         return $this->services[$name]($this);
@@ -56,8 +64,21 @@ class Container implements ContainerInterface
         return isset($this->services[$name]);
     }
 
+    public function remove($name)
+    {
+        if ($this->isFrozen()) {
+            throw new FrozenContainerException(sprintf('%s cannot modify a frozen container', __METHOD__));
+        }
+        unset($this->services[$name]);
+
+        return $this;
+    }
+
     public function setParameter($key, $value)
     {
+        if ($this->isFrozen()) {
+            throw new FrozenContainerException(sprintf('%s cannot modify a frozen container', __METHOD__));
+        }
         $this->parameters[$key] = $value;
 
         return $this;
@@ -79,8 +100,21 @@ class Container implements ContainerInterface
 
     public function removeParameter($key)
     {
+        if ($this->isFrozen()) {
+            throw new FrozenContainerException(sprintf('%s cannot modify a frozen container', __METHOD__));
+        }
         unset($this->parameters[$key]);
 
         return $this;
+    }
+
+    public function isFrozen()
+    {
+        return $this->frozen;
+    }
+
+    public function freeze()
+    {
+        $this->frozen = true;
     }
 }

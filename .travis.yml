@@ -8,7 +8,7 @@ before_script:
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install --dev --prefer-dist --no-interaction
 
-script: php bin/phing integrate
+script: php bin/phing build.ci
 
 after_script:
   - php bin/coveralls -v

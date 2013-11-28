@@ -12,7 +12,7 @@
     syntaxCheck="false"
     bootstrap="bootstrap.php" >
     <testsuites>
-        <testsuite name="Novuso Service UnitTest Suite">
+        <testsuite name="Novuso Service IntegrationTest Suite">
             <directory>../tests</directory>
         </testsuite>
     </testsuites>

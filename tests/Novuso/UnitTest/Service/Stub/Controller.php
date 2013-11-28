@@ -7,7 +7,7 @@
  * @license   http://opensource.org/licenses/MIT The MIT License
  */
 
-namespace Novuso\Test\Service\Stub;
+namespace Novuso\UnitTest\Service\Stub;
 
 use Novuso\Component\Service\Api\ContainerAwareInterface;
 use Novuso\Component\Service\Mixin\ContainerAwareTrait;

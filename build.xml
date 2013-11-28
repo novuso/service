@@ -13,8 +13,13 @@
         <echo msg="Build complete for version: ${version}" />
     </target>
 
-    <target name="integrate" description="Default build process for continuous integration server"
+    <target name="build.ci" description="Default build process for continuous integration server"
             depends="prepare,qa.ci,docs">
+        <echo msg="Build complete for version: ${version}" />
+    </target>
+
+    <target name="integration.ci" description="Integration build process for continuous integration server"
+            depends="prepare,qa.int,docs">
         <echo msg="Build complete for version: ${version}" />
     </target>
 
@@ -73,8 +78,13 @@
         <echo msg="Quality assurance process complete" />
     </target>
 
-    <target name="qa.ci" description="Runs quality assurance tools on source code for integration"
+    <target name="qa.ci" description="Runs quality assurance tools on source code for CI server"
             depends="phplint,phpunit,phpcs.ci,phpmd.ci,phploc,pdepend,phpcpd,phpcb">
+        <echo msg="Quality assurance process complete" />
+    </target>
+
+    <target name="qa.int" description="Runs integration qa tools on source code for CI server"
+            depends="phplint,phpunit.int,phpcs.ci,phpmd.ci,phploc,pdepend,phpcpd,phpcb">
         <echo msg="Quality assurance process complete" />
     </target>
 
@@ -91,11 +101,29 @@
     </target>
 
     <target name="phpunit" description="Runs unit tests with PHPUnit">
-        <echo msg="Running PHPUnit test suite" />
+        <echo msg="Running PHPUnit unit test suite" />
         <exec executable="php" passthru="true" returnProperty="phpunit.return">
             <arg path="${phpunit.bin}" />
             <arg value="-c" />
             <arg path="${phpunit.conf}" />
+        </exec>
+        <if>
+            <equals arg1="${phpunit.return}" arg2="0"/>
+            <then>
+                <echo msg="Tests passed" />
+            </then>
+            <else>
+                <fail msg="Test failed" />
+            </else>
+        </if>
+    </target>
+
+    <target name="phpunit.int" description="Runs integration tests with PHPUnit">
+        <echo msg="Running PHPUnit integration test suite" />
+        <exec executable="php" passthru="true" returnProperty="phpunit.return">
+            <arg path="${phpunit.bin}" />
+            <arg value="-c" />
+            <arg path="${phptest.conf}" />
         </exec>
         <if>
             <equals arg1="${phpunit.return}" arg2="0"/>
